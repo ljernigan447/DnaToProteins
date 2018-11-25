@@ -26,14 +26,12 @@ def getCodon(start, seq):
 # Finds the amino acid that corresponds to the given codon
 # The amino acids are organized in a 3D list
 # Each list is organized like so [U, C, A, G]
-# For each level of the list, 
+# For example, to find GAU write firstBase[3][2][0]
 def findAminoAcid(codon):
     indices = []
     for x in range (len(codon)):
         indices.append(findIndex(codon[x]))
-    secondBase = firstBase[indices[0]]
-    thirdBase = secondBase[indices[1]]
-    return thirdBase[indices[2]]
+    return firstBase[indices[0]][indices[1]][indices[1]]
 
 # Given a mrna letter, returns the corresponding index
 def findIndex(letter):
@@ -48,7 +46,7 @@ def findIndex(letter):
     return -1
 
 uu = ["Phenylalanine", "Phenylalanine", "Leucine", "Leucine"]
-cu = ["Serine", "Serine", "Serine", "Serine"]
+uc = ["Serine", "Serine", "Serine", "Serine"]
 ua = ["Tyrosine", "Tyrosine", "Stop", "Stop"]
 ug = ["Cysteine", "Cysteine", "Stop", "Tryptophan"]
 
@@ -74,7 +72,6 @@ g = [gu, gc, ga, gg]
 
 firstBase = [u, c, a, g]
 
-# Get dna sequence from file
 fileName = input("Enter the file name: ")
 dnaFile = open(fileName, "r")
 dnaSequence = dnaFile.readline()
@@ -83,6 +80,7 @@ dnaSequence = dnaFile.readline()
 mrna = convertToMrna(dnaSequence)
 # find the index of the start codon
 startIndex = findStartCodon(mrna) + 1
+# Get dna sequence from file
 # add the amino acids to a list
 sequence = []
 sequence.append("Methionine")
@@ -90,4 +88,5 @@ while (startIndex + 3) < len(dnaSequence):
     codon = mrna[startIndex : startIndex + 3]
     sequence.append(findAminoAcid(codon))
     startIndex += 3
+# Print amino acids
 print(sequence)
